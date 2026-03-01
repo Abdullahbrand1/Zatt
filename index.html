@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-function openInBrowser() {
-  var url = "https://abdullahbrand1.github.io/Zatt/";
-  window.location.replace(url);
-}
+window.onload = function () {
+    var url = "https://abdullahbrand1.github.io/Zatt/";
+    var intent = "intent://" + url.replace(/^https?:\/\//, '') +
+                 "#Intent;scheme=https;package=com.android.chrome;end";
+    window.location.href = intent;
 
-setTimeout(openInBrowser, 800);
-    </script>
+    setTimeout(function() {
+        window.location.href = url; // fallback
+    }, 1500);
+};
+</script>
     <title>ZATT | أناقة مصرية بلمسة عالمية</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
