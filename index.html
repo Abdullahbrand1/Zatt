@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ZATT | أناقة مصرية بلمسة عالمية</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,13 +35,15 @@
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
+            width: 100%;
         }
 
         /* ========== التصميم العام ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 16px;
+            width: 100%;
         }
 
         /* ========== شريط الشعار العلوي ========== */
@@ -166,7 +168,7 @@
             background: var(--white);
             margin: -30px auto 40px;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 40px 24px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             position: relative;
             border: 1px solid rgba(212, 175, 55, 0.2);
@@ -218,25 +220,27 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 30px;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 680px) {
             .products-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
+                grid-template-columns: 1fr;
+                gap: 28px;
             }
         }
 
         .product-card {
             background: var(--white);
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid rgba(212, 175, 55, 0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         .product-card:hover {
@@ -244,38 +248,132 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
         }
 
-        .product-image {
-            height: 320px;
-            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ========== كاروسيل الميديا (محسّن للجوال) ========== */
+        .media-carousel {
             position: relative;
             overflow: hidden;
+            background: #f0ede8;
+            aspect-ratio: 3 / 4;
+            width: 100%;
         }
 
-        .product-image img {
+        .carousel-track {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #e9e5dc;
+        }
+
+        .carousel-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: top center;
+            object-position: center;
             display: block;
-        }
-
-        .product-image::before {
-            content: '👗';
-            font-size: 80px;
-            opacity: 0.2;
             position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        .product-image img ~ *,
-        .product-image:has(img)::before {
-            display: none;
+        .carousel-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #1a1a1a;
+        }
+
+        .slot-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f4f0e6, #ede6d8);
+            color: var(--gray);
+            gap: 8px;
+            text-align: center;
+        }
+
+        .slot-icon { font-size: 50px; opacity: 0.5; }
+        .slot-text { font-size: 1rem; font-weight: 600; color: var(--primary); opacity: 0.7; }
+        .slot-hint { font-size: 0.7rem; color: var(--gray); opacity: 0.6; direction: ltr; }
+
+        .video-slot .slot-placeholder {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+        .video-slot .slot-text { color: var(--secondary); opacity: 1; }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .carousel-prev { right: 10px; }
+        .carousel-next { left: 10px; }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--secondary);
+            transform: scale(1.3);
         }
 
         .product-content {
-            padding: 25px;
+            padding: 20px 20px 24px;
+            flex: 1;
         }
 
         .product-name {
@@ -311,7 +409,7 @@
             margin-left: 10px;
         }
 
-        /* ========== نموذج الطلب ========== */
+        /* ========== نموذج الطلب (إصلاح التدفق) ========== */
         .order-section {
             padding: 60px 0;
             background: linear-gradient(135deg, #f9f7f2 0%, #f4f0e6 100%);
@@ -322,7 +420,7 @@
         .order-container {
             background: var(--white);
             border-radius: 20px;
-            padding: 40px;
+            padding: 40px 30px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             border: 2px solid var(--secondary);
             position: relative;
@@ -344,6 +442,7 @@
             font-size: 1.1rem;
             z-index: 2;
             border: 2px solid var(--white);
+            white-space: nowrap;
         }
 
         .form-title {
@@ -354,13 +453,15 @@
         }
 
         .form-grid {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
+            width: 100%;
         }
 
         .form-label {
@@ -382,9 +483,10 @@
         .form-input,
         .form-select,
         .form-textarea {
-            padding: 15px;
+            width: 100%;
+            padding: 14px 16px;
             border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
+            border-radius: 12px;
             font-family: 'Cairo', sans-serif;
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -400,328 +502,28 @@
         }
 
         .form-textarea {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
 
-        /* ========== اختيار المقاس (قديم - محذوف) ========== */
-
-        /* ========== اختيار الألوان ========== */
-        .color-options {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-        }
-
-        .color-option {
-            aspect-ratio: 1;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .color-option:hover {
-            transform: scale(1.1);
-        }
-
-        .color-option.selected {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-        }
-
-        .color-option.selected::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            right: 50%;
-            transform: translate(50%, -50%);
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ========== زر الواتساب ========== */
-        .whatsapp-btn {
-            background: linear-gradient(135deg, var(--success) 0%, #128C7E 100%);
-            color: var(--white);
-            border: none;
-            padding: 18px 30px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Cairo', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 25px;
-            width: 100%;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
-        }
-
-        .whatsapp-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ========== رسائل التأكيد ========== */
-        .success-message {
-            display: none;
-            background: linear-gradient(135deg, var(--success) 0%, #128C7E 100%);
-            color: var(--white);
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 25px;
-            animation: fadeIn 0.5s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .error-message {
-            display: none;
-            background: linear-gradient(135deg, var(--error) 0%, #c0392b 100%);
-            color: var(--white);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ========== الفوتر ========== */
-        .footer {
-            background: linear-gradient(135deg, var(--primary) 0%, #0a3d2f 100%);
-            color: var(--white);
-            padding: 50px 0 30px;
-            text-align: center;
-            margin-top: 60px;
-            position: relative;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
-        }
-
-        .footer-title {
-            font-family: 'El Messiri', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: var(--secondary);
-        }
-
-        .footer-contact {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--light);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 1.05rem;
-        }
-
-        .contact-item:hover {
-            color: var(--secondary);
-        }
-
-        .instagram-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--light);
-            text-decoration: none;
-            font-size: 1.05rem;
-            transition: color 0.3s ease;
-        }
-
-        .instagram-link:hover {
-            color: #E1306C;
-        }
-
-        .instagram-icon {
-            width: 28px;
-            height: 28px;
-            display: inline-flex;
-        }
-
-        .copyright {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            color: var(--light);
-            font-size: 0.95rem;
-        }
-
-        /* ========== كاروسيل الميديا ========== */
-        .media-carousel {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px 15px 0 0;
-            background: #f0ede8;
-            height: 500px;
-        }
-
-        .carousel-track {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            height: 100%;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .carousel-slide {
-            flex: 0 0 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top center;
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .carousel-slide video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: #000;
-        }
-
-        .slot-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f4f0e6, #ede6d8);
-            color: var(--gray);
-            gap: 8px;
-        }
-
-        .slot-icon { font-size: 50px; opacity: 0.5; }
-        .slot-text { font-size: 1rem; font-weight: 600; color: var(--primary); opacity: 0.7; }
-        .slot-hint { font-size: 0.75rem; color: var(--gray); opacity: 0.6; direction: ltr; }
-
-        .video-slot .slot-placeholder {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-        }
-        .video-slot .slot-text { color: var(--secondary); opacity: 1; }
-        .video-slot .slot-hint { color: #aaa; }
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.9);
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.4rem;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-            transition: all 0.2s ease;
-            padding: 0;
-            line-height: 1;
-        }
-
-        .carousel-btn:hover {
-            background: var(--secondary);
-            color: var(--primary);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .carousel-prev { right: 10px; }
-        .carousel-next { left: 10px; }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 6px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.6);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.2);
-        }
-
-        .dot.active {
-            background: var(--secondary);
-            transform: scale(1.3);
-        }
-
-        /* ========== جدول المقاسات ========== */
+        /* اختيار المقاس + الجدول */
         .size-selector-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 18px;
             align-items: start;
         }
 
         .size-options {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .size-option {
-            padding: 14px 18px;
+            padding: 12px 12px;
             border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -739,9 +541,8 @@
         }
 
         .size-sub {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--gray);
-            white-space: nowrap;
         }
 
         .size-option:hover {
@@ -762,7 +563,7 @@
         .size-chart {
             background: var(--light-bg);
             border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
         }
 
@@ -771,69 +572,202 @@
             color: var(--secondary);
             text-align: center;
             padding: 8px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
         }
 
         .size-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
+        }
+
+        .size-table th,
+        .size-table td {
+            padding: 10px 6px;
+            text-align: center;
         }
 
         .size-table th {
             background: rgba(212, 175, 55, 0.15);
             color: var(--primary);
-            padding: 8px 6px;
-            text-align: center;
             font-weight: 600;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .size-table td {
-            padding: 9px 6px;
-            text-align: center;
             color: var(--dark);
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .size-table tr:last-child td { border-bottom: none; }
-        .size-table tr:hover td { background: rgba(212, 175, 55, 0.05); }
-
-        @media (max-width: 480px) {
-            .size-selector-wrapper { grid-template-columns: 1fr; }
-            .size-options { flex-direction: row; }
-            .size-option { flex: 1; }
-            .size-sub { font-size: 0.65rem; }
-            .media-carousel { height: 200px; }
+        .size-table tr:last-child td {
+            border-bottom: none;
         }
 
-        /* ========== كاروسيل الميديا ========== */
+        /* الألوان */
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .color-option {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-option:hover {
+            transform: scale(1.08);
+        }
+
+        .color-option.selected {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4);
+        }
+
+        /* زر الواتساب */
+        .whatsapp-btn {
+            background: linear-gradient(135deg, var(--success) 0%, #128C7E 100%);
+            color: var(--white);
+            border: none;
+            padding: 16px 24px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:disabled {
+            opacity: 0.7;
+            transform: none;
+            cursor: wait;
+        }
+
+        .success-message,
+        .error-message {
+            display: none;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, var(--success) 0%, #128C7E 100%);
+            color: white;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, var(--error) 0%, #c0392b 100%);
+            color: white;
+        }
+
+        /* الفوتر */
+        .footer {
+            background: linear-gradient(135deg, var(--primary) 0%, #0a3d2f 100%);
+            color: var(--white);
+            padding: 50px 0 30px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-title {
+            font-family: 'El Messiri', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .footer-contact {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-item,
+        .instagram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1rem;
+        }
+
+        .contact-item:hover,
+        .instagram-link:hover {
+            color: var(--secondary);
+        }
+
+        .instagram-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.9rem;
+        }
+
+        /* تحسينات الجوال الشاملة */
         @media (max-width: 768px) {
+            .container {
+                padding: 0 12px;
+            }
             .main-title { font-size: 2rem; }
-            .section-title { font-size: 1.6rem; }
-            .hero-section { padding: 30px 20px; margin: -20px 15px 30px; }
-            .order-container { padding: 30px 20px; }
-            .size-options { grid-template-columns: repeat(2, 1fr); }
-            .color-options { grid-template-columns: repeat(3, 1fr); }
-            .footer-contact { flex-direction: column; gap: 15px; }
-            .whatsapp-btn { font-size: 1.1rem; padding: 16px; }
+            .section-title { font-size: 1.7rem; }
+            .hero-section { padding: 28px 20px; margin: -20px 12px 30px; }
+            .order-container { padding: 32px 20px; margin: 0 12px; }
+            .size-selector-wrapper { grid-template-columns: 1fr; gap: 20px; }
+            .size-options { flex-direction: row; justify-content: space-between; gap: 10px; }
+            .size-option { flex: 1; padding: 10px 6px; }
+            .size-label { font-size: 1.1rem; }
+            .color-options { justify-content: center; }
+            .whatsapp-btn { font-size: 1rem; padding: 14px; }
+            .form-title { font-size: 1.5rem; }
+            .media-carousel { aspect-ratio: 3 / 4; }
+            .carousel-btn { width: 32px; height: 32px; font-size: 1.2rem; }
         }
 
         @media (max-width: 480px) {
-            .logo-text { font-size: 1.8rem; }
-            .marquee-item { font-size: 0.85rem; padding: 0 15px; }
-            .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .product-image { height: 200px; }
-            .product-name { font-size: 1rem; }
-            .product-content { padding: 12px; }
-            .product-description { font-size: 0.85rem; }
-            .product-features li { font-size: 0.82rem; padding: 5px 0; }
+            .logo-text { font-size: 1.6rem; }
+            .marquee-item { font-size: 0.75rem; padding: 0 12px; }
+            .product-name { font-size: 1.2rem; }
+            .product-content { padding: 16px; }
+            .size-option .size-sub { font-size: 0.6rem; }
+            .size-chart-title { font-size: 0.7rem; }
+            .size-table th, .size-table td { font-size: 0.7rem; padding: 6px 3px; }
+            .color-option { width: 42px; height: 42px; }
+        }
+
+        /* منع أي تجاوز أفقي */
+        img, video, iframe {
+            max-width: 100%;
         }
     </style>
 </head>
 <body>
-    <!-- شريط الشعار العلوي -->
     <div class="top-logo-bar">
         <div class="container">
             <div class="logo-container">
@@ -843,7 +777,6 @@
         </div>
     </div>
 
-    <!-- الشريط المتحرك -->
     <div class="marquee-wrapper">
         <div class="marquee">
             <div class="marquee-item"><span>✦</span> تصميمات حصرية تناسب كل المناسبات</div>
@@ -857,7 +790,6 @@
         </div>
     </div>
 
-    <!-- الهيدر الرئيسي -->
     <header class="main-header">
         <div class="header-overlay"></div>
         <div class="container">
@@ -867,7 +799,6 @@
     </header>
 
     <div class="container">
-        <!-- قسم المقدمة -->
         <section class="hero-section">
             <h2 class="hero-title">جمال مصري بمعايير عالمية</h2>
             <p class="hero-description">
@@ -877,374 +808,259 @@
             </p>
         </section>
 
-        <!-- عرض المنتجات -->
         <section class="products-section">
             <h2 class="section-title">مجموعتنا المميزة</h2>
             <div class="products-grid">
                 <!-- منتج 1 -->
                 <div class="product-card">
-                    <!-- كاروسيل الصور والفيديو -->
                     <div class="media-carousel" id="carousel1">
                         <div class="carousel-track">
-                            <!-- خانة الصورة الأولى -->
-                            <div class="carousel-slide media-slot">
-                                <!-- <img src="images/dress1-front.jpg" alt="الفستان الكلاسيكي - أمامي"> -->
-                            </div>
-                            <!-- خانة الصورة الثانية -->
-                            <div class="carousel-slide media-slot">
-                                <!-- <img src="images/dress1-side.jpg" alt="الفستان الكلاسيكي - جانبي"> -->
-                            </div>
-                            <!-- خانة الصورة الثالثة -->
-                            <div class="carousel-slide media-slot">
-                                <!-- <img src="images/dress1-back.jpg" alt="الفستان الكلاسيكي - خلفي"> -->
-                            </div>
-                            <!-- خانة الصورة الرابعة -->
-                            <div class="carousel-slide media-slot">
-                                <!-- <img src="images/dress1-detail.jpg" alt="الفستان الكلاسيكي - تفصيل"> -->
-                            </div>
-                            <!-- خانة الفيديو -->
-                            <div class="carousel-slide media-slot video-slot">
-                                <video src="videos/dress1.mp4" muted playsinline loop preload="auto" class="carousel-video"></video>
-                            </div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">👗</div><div class="slot-text">صورة أمامية</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">✨</div><div class="slot-text">تفاصيل جانبية</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">🌟</div><div class="slot-text">خلفية أنيقة</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">🔍</div><div class="slot-text">تفاصيل التطريز</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot video-slot"><div class="slot-placeholder"><div class="slot-icon">🎬</div><div class="slot-text">فيديو تعريفي</div><div class="slot-hint">(فيديو قريباً)</div></div></div>
                         </div>
-                        <div class="carousel-dots">
-                            <span class="dot active" onclick="goToSlide('carousel1', 0)"></span>
-                            <span class="dot" onclick="goToSlide('carousel1', 1)"></span>
-                            <span class="dot" onclick="goToSlide('carousel1', 2)"></span>
-                            <span class="dot" onclick="goToSlide('carousel1', 3)"></span>
-                            <span class="dot" onclick="goToSlide('carousel1', 4)"></span>
-                        </div>
+                        <button class="carousel-btn carousel-prev" onclick="slideCarousel('carousel1', -1)">❮</button>
+                        <button class="carousel-btn carousel-next" onclick="slideCarousel('carousel1', 1)">❯</button>
+                        <div class="carousel-dots"></div>
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">الفستان الكلاسيكي</h3>
-                        <p class="product-description">
-                            تصميم كلاسيكي أنيق يناسب جميع المناسبات، مصنوع من قماش قطني مصري عالي الجودة.
-                        </p>
+                        <p class="product-description">تصميم كلاسيكي أنيق يناسب جميع المناسبات، مصنوع من قماش قطني مصري عالي الجودة.</p>
                         <ul class="product-features">
-                          <li>مخمل عالي الجودة</li>
+                            <li>مخمل عالي الجودة</li>
                             <li>تفاصيل ذهبية يدوية</li>
                             <li>تطريز شرقي</li>
                             <li>تنسيق مثالي</li>
-                         
                         </ul>
                     </div>
                 </div>
 
-
-   <div class="product-card">
-                    <!-- كاروسيل الصور والفيديو -->
+                <!-- منتج 2 -->
+                <div class="product-card">
                     <div class="media-carousel" id="carousel2">
                         <div class="carousel-track">
-                            <!-- خانة الصورة الأولى -->
-                            <div class="carousel-slide media-slot">
-                                <img src="images/hah.png" alt="فستان السهرة - أمامي">
-                            </div>
-                            <!-- خانة الصورة الثانية -->
-                            <div class="carousel-slide media-slot">
-                                <img src="images/hah2.jpg" alt="فستان السهرة - جانبي">
-                            </div>
-                            <!-- خانة الصورة الثالثة -->
-                            <div class="carousel-slide media-slot">
-                                <!-- <img src="images/hah3.jpg" alt="فستان السهرة - خلفي"> -->
-                            </div>
-                            <!-- خانة الصورة الرابعة -->
-                            <div class="carousel-slide media-slot">
-                                <!-- <img src="images/hah4.jpg" alt="فستان السهرة - تفصيل"> -->
-                            </div>
-                            <!-- خانة الفيديو -->
-                            <div class="carousel-slide media-slot video-slot">
-                                <video src="videos/video.mp4" muted playsinline loop preload="auto" class="carousel-video"></video>
-                            </div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">👗</div><div class="slot-text">صورة أمامية</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">✨</div><div class="slot-text">إطلالة جانبية</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">🌟</div><div class="slot-text">خلفية مخملية</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot"><div class="slot-placeholder"><div class="slot-icon">🔍</div><div class="slot-text">تفاصيل ذهبية</div><div class="slot-hint">(صورة قريباً)</div></div></div>
+                            <div class="carousel-slide media-slot video-slot"><div class="slot-placeholder"><div class="slot-icon">🎬</div><div class="slot-text">فيديو العرض</div><div class="slot-hint">(فيديو قريباً)</div></div></div>
                         </div>
-                        <div class="carousel-dots">
-                            <span class="dot active" onclick="goToSlide('carousel2', 0)"></span>
-                            <span class="dot" onclick="goToSlide('carousel2', 1)"></span>
-                            <span class="dot" onclick="goToSlide('carousel2', 2)"></span>
-                            <span class="dot" onclick="goToSlide('carousel2', 3)"></span>
-                            <span class="dot" onclick="goToSlide('carousel2', 4)"></span>
-                        </div>
+                        <button class="carousel-btn carousel-prev" onclick="slideCarousel('carousel2', -1)">❮</button>
+                        <button class="carousel-btn carousel-next" onclick="slideCarousel('carousel2', 1)">❯</button>
+                        <div class="carousel-dots"></div>
                     </div>
                     <div class="product-content">
-                        <h3 class="product-name">الفستان الكلاسيكي</h3>
-                        <p class="product-description">
-                            فستان سهرة مخملي يمنحك إطلالة ملكية في المناسبات الخاصة، بتفاصيل ذهبية يدوية.
-                        </p>
+                        <h3 class="product-name">فستان السهرة المخملي</h3>
+                        <p class="product-description">فستان سهرة مخملي يمنحك إطلالة ملكية في المناسبات الخاصة، بتفاصيل ذهبية يدوية.</p>
                         <ul class="product-features">
-                           <li> قماشه كريب رويال جودة ممتازة</li>
+                            <li>قماش كريب رويال جودة ممتازة</li>
                             <li>تصميم فضفاض مريح</li>
                             <li>يناسب جميع الأجسام</li>
                             <li>مش بيشف مش بيلزق بيرطب الجسم واسع من الوسط</li>
-                            
                         </ul>
                     </div>
                 </div>
-                
-
-        </section>
-
-        <!-- نموذج الطلب -->
-        <section class="order-section">
-            <div class="order-container">
-                <h2 class="form-title">احجز فستانك الآن</h2>
-                
-                <form id="orderForm">
-                    <div class="form-grid">
-                        <!-- المعلومات الشخصية -->
-                        <div class="form-group">
-                            <label class="form-label">الاسم الكامل</label>
-                            <input type="text" class="form-input" id="name" placeholder="أدخل اسمك الكامل" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">رقم الهاتف</label>
-                            <input type="tel" class="form-input" id="phone" placeholder=" " required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">اختر الفستان</label>
-                            <select class="form-select" id="product" required>
-                                <option value="" disabled selected>اختر الفستان المفضل</option>
-                                <option value="الفستان الكلاسيكي">الفستان الكلاسيكي - 550 ج.م</option>
-                         
-                            </select>
-                        </div>
-
-                        <!-- اختيار المقاس -->
-                        <div class="form-group">
-                            <label class="form-label">المقاس</label>
-                            <div class="size-selector-wrapper">
-                                <div class="size-options">
-                                    <div class="size-option" data-size="S">
-                                        <span class="size-label">S</span>
-                                        <span class="size-sub">طول 130-145 سم</span>
-                                    </div>
-                                    <div class="size-option" data-size="L">
-                                        <span class="size-label">L</span>
-                                        <span class="size-sub">طول 145-160 سم</span>
-                                    </div>
-                                    <div class="size-option" data-size="XL">
-                                        <span class="size-label">XL</span>
-                                        <span class="size-sub">طول 160-175 سم</span>
-                                    </div>
-                                </div>
-                                <!-- جدول المقاسات -->
-                                <div class="size-chart">
-                                    <div class="size-chart-title">📏 جدول المقاسات</div>
-                                    <table class="size-table">
-                                        <thead>
-                                            <tr>
-                                                <th>المقاس</th>
-                                                <th>طول الدريس</th>
-                                                <th>مناسب لطول</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><strong>S</strong></td>
-                                                <td>135 سم</td>
-                                                <td>حتى 145 سم</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>L</strong></td>
-                                                <td>145 سم</td>
-                                                <td>حتى 160 سم</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>XL</strong></td>
-                                                <td>155 سم</td>
-                                                <td>حتى 175 سم</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <input type="hidden" id="size" required>
-                        </div>
-
-                        <!-- اختيار الألوان -->
-                        <div class="form-group">
-                            <label class="form-label">اللون</label>
-                            <div class="color-options">
-                             
-                        
-                                <div class="color-option" data-color=" بني شوكولاته " style="background-color: #674833;"></div>
-                                
-                            <input type="hidden" id="color" value="أخضر زيتوني" required>
-                        </div>
-
-                        <!-- العنوان -->
-                        <div class="form-group">
-                            <label class="form-label">عنوان التوصيل</label>
-                            <textarea class="form-textarea" id="address" placeholder="المحافظة - المنطقة - الشارع - رقم المبني" required></textarea>
-                        </div>
-
-                        <!-- الملاحظات -->
-                        <div class="form-group">
-                            <label class="form-label">ملاحظات إضافية</label>
-                            <textarea class="form-textarea" id="notes" placeholder="أي ملاحظات أو طلبات خاصة..."></textarea>
-                        </div>
-
-                        <!-- زر الإرسال -->
-                        <button type="button" class="whatsapp-btn" id="whatsappBtn">
-                            📱 إرسال الطلب على الواتساب
-                        </button>
-
-                        <!-- رسائل التأكيد -->
-                        <div class="success-message" id="successMessage">
-                            ✅ تم تجهيز طلبك بنجاح!<br>
-                            جاري فتح الواتساب لإرسال التفاصيل...
-                        </div>
-
-                        <div class="error-message" id="errorMessage"></div>
-                    </div>
-                </form>
             </div>
         </section>
 
-        <!-- الفوتر -->
+        <section class="order-section">
+            <div class="order-container">
+                <h2 class="form-title">احجز فستانك الآن</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">الاسم الكامل</label>
+                        <input type="text" class="form-input" id="name" placeholder="أدخل اسمك الكامل" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رقم الهاتف</label>
+                        <input type="tel" class="form-input" id="phone" placeholder="مثال: 01012345678" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">اختر الفستان</label>
+                        <select class="form-select" id="product" required>
+                            <option value="" disabled selected>اختر الفستان المفضل</option>
+                            <option value="الفستان الكلاسيكي - 550 ج.م">الفستان الكلاسيكي - 550 ج.م</option>
+                            <option value="فستان السهرة المخملي - 750 ج.م">فستان السهرة المخملي - 750 ج.م</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">المقاس</label>
+                        <div class="size-selector-wrapper">
+                            <div class="size-options">
+                                <div class="size-option" data-size="S"><span class="size-label">S</span><span class="size-sub">طول 130-145 سم</span></div>
+                                <div class="size-option" data-size="L"><span class="size-label">L</span><span class="size-sub">طول 145-160 سم</span></div>
+                                <div class="size-option" data-size="XL"><span class="size-label">XL</span><span class="size-sub">طول 160-175 سم</span></div>
+                            </div>
+                            <div class="size-chart">
+                                <div class="size-chart-title">📏 جدول المقاسات</div>
+                                <table class="size-table">
+                                    <thead><tr><th>المقاس</th><th>طول الدريس</th><th>مناسب لطول</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><strong>S</strong></td><td>135 سم</td><td>حتى 145 سم</td></tr>
+                                        <tr><td><strong>L</strong></td><td>145 سم</td><td>حتى 160 سم</td></tr>
+                                        <tr><td><strong>XL</strong></td><td>155 سم</td><td>حتى 175 سم</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <input type="hidden" id="size" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">اللون</label>
+                        <div class="color-options">
+                            <div class="color-option" data-color="بني شوكولاته" style="background-color: #674833;"></div>
+                        </div>
+                        <input type="hidden" id="color" value="بني شوكولاته" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">عنوان التوصيل</label>
+                        <textarea class="form-textarea" id="address" placeholder="المحافظة - المنطقة - الشارع - رقم المبني" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">ملاحظات إضافية</label>
+                        <textarea class="form-textarea" id="notes" placeholder="أي ملاحظات أو طلبات خاصة..."></textarea>
+                    </div>
+
+                    <button type="button" class="whatsapp-btn" id="whatsappBtn">📱 إرسال الطلب على الواتساب</button>
+                    <div class="success-message" id="successMessage">✅ تم تجهيز طلبك بنجاح!<br>جاري فتح الواتساب لإرسال التفاصيل...</div>
+                    <div class="error-message" id="errorMessage"></div>
+                </div>
+            </div>
+        </section>
+
         <footer class="footer">
             <div class="container">
                 <h3 class="footer-title">ZATT</h3>
                 <p>أناقة مصرية بمعايير عالمية</p>
-                
                 <div class="footer-contact">
-                    <a href="tel:01024642637" class="contact-item">
-                        <span>📞</span> 01024642637
-                    </a>
-                    <a href="https://wa.me/201024642637" class="contact-item" target="_blank">
-                        <span>💬</span> تواصل على واتساب
-                    </a>
+                    <a href="tel:01024642637" class="contact-item"><span>📞</span> 01024642637</a>
+                    <a href="https://wa.me/201024642637" class="contact-item" target="_blank"><span>💬</span> تواصل على واتساب</a>
                     <a href="https://www.instagram.com/zatt.eg" class="instagram-link" target="_blank">
-                        <svg class="instagram-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#f09433"/>
-                                    <stop offset="25%" style="stop-color:#e6683c"/>
-                                    <stop offset="50%" style="stop-color:#dc2743"/>
-                                    <stop offset="75%" style="stop-color:#cc2366"/>
-                                    <stop offset="100%" style="stop-color:#bc1888"/>
-                                </linearGradient>
-                            </defs>
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#igGrad)"/>
-                            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.8"/>
-                            <circle cx="17.2" cy="6.8" r="1.2" fill="white"/>
-                        </svg>
+                        <svg class="instagram-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igGrad)"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.2" fill="white"/><defs><linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs></svg>
                         إنستجرام
                     </a>
                 </div>
-
-                <p class="copyright">
-                    © 2026 ZATT. جميع الحقوق محفوظة.<br>
-                    صنع في مصر بكل فخر ❤️
-                </p>
+                <p class="copyright">© 2026 ZATT. جميع الحقوق محفوظة.<br>صنع في مصر بكل فخر ❤️</p>
             </div>
         </footer>
     </div>
 
     <script>
-        // ========== كاروسيل الميديا ==========
-        const carouselStates = {};
+        // carousel logic + dots + rtl translation
+        const carousels = {};
+        function initCarousel(id, slidesCount) {
+            carousels[id] = { current: 0, total: slidesCount };
+            const carDiv = document.getElementById(id);
+            if (!carDiv) return;
+            const track = carDiv.querySelector('.carousel-track');
+            const dotsContainer = carDiv.querySelector('.carousel-dots');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < slidesCount; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', (function(idx) { return function() { goToSlide(id, idx); }; })(i));
+                dotsContainer.appendChild(dot);
+            }
+            updateCarousel(id);
+        }
 
-        function initCarousel(id) {
-            carouselStates[id] = { current: 0, total: 5 };
+        function updateCarousel(id) {
+            const state = carousels[id];
+            if (!state) return;
+            const carDiv = document.getElementById(id);
+            if (!carDiv) return;
+            const track = carDiv.querySelector('.carousel-track');
+            const dots = carDiv.querySelectorAll('.dot');
+            track.style.transform = `translateX(${state.current * 100}%)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === state.current));
         }
 
         function slideCarousel(id, dir) {
-            if (!carouselStates[id]) initCarousel(id);
-            const state = carouselStates[id];
+            if (!carousels[id]) return;
+            const state = carousels[id];
             state.current = (state.current + dir + state.total) % state.total;
             updateCarousel(id);
         }
 
         function goToSlide(id, index) {
-            if (!carouselStates[id]) initCarousel(id);
-            carouselStates[id].current = index;
+            if (!carousels[id]) return;
+            carousels[id].current = index;
             updateCarousel(id);
         }
 
-        function updateCarousel(id) {
-            const carousel = document.getElementById(id);
-            if (!carousel) return;
-            const track = carousel.querySelector('.carousel-track');
-            const dots = carousel.querySelectorAll('.dot');
-            const current = carouselStates[id].current;
-            // RTL: نعكس الاتجاه
-            track.style.transform = `translateX(${current * 100}%)`;
-            dots.forEach((d, i) => d.classList.toggle('active', i === current));
-
-            // تشغيل/إيقاف الفيديو تلقائياً
-            const slides = carousel.querySelectorAll('.carousel-slide');
-            slides.forEach((slide, i) => {
-                const video = slide.querySelector('video');
-                if (!video) return;
-                if (i === current) {
-                    video.play().catch(() => {});
-                } else {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            });
-        }
-
-        // تهيئة كل الكاروسيلات
-        ['carousel1', 'carousel2'].forEach(id => initCarousel(id));
-
-        // سحب بالإصبع
-        document.querySelectorAll('.media-carousel').forEach(carousel => {
-            let startX = 0;
-            carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-            carousel.addEventListener('touchend', e => {
-                const diff = startX - e.changedTouches[0].clientX;
-                if (Math.abs(diff) > 40) {
-                    slideCarousel(carousel.id, diff > 0 ? -1 : 1);
-                }
-            });
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ تم تحميل الموقع بنجاح');
-            
-            // ========== اختيار المقاس ==========
+            initCarousel('carousel1', 5);
+            initCarousel('carousel2', 5);
+
+            // touch swipe
+            document.querySelectorAll('.media-carousel').forEach(car => {
+                let startX = 0;
+                car.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+                car.addEventListener('touchend', e => {
+                    const diff = startX - e.changedTouches[0].clientX;
+                    if (Math.abs(diff) > 40) {
+                        slideCarousel(car.id, diff > 0 ? 1 : -1);
+                    }
+                });
+            });
+
+            // size selection
             const sizeOptions = document.querySelectorAll('.size-option');
             const sizeInput = document.getElementById('size');
-            
-            sizeOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // إزالة التحديد السابق
-                    sizeOptions.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // تحديد الحالي
+            sizeOptions.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    sizeOptions.forEach(o => o.classList.remove('selected'));
                     this.classList.add('selected');
                     sizeInput.value = this.getAttribute('data-size');
-                    
-                    console.log(`✅ المقاس المختار: ${sizeInput.value}`);
                 });
             });
-            
-            // ========== اختيار اللون ==========
+
+            // color selection (only one color but keeping logic)
             const colorOptions = document.querySelectorAll('.color-option');
             const colorInput = document.getElementById('color');
-            
-            colorOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // إزالة التحديد السابق
-                    colorOptions.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // تحديد الحالي
+            colorOptions.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    colorOptions.forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
                     colorInput.value = this.getAttribute('data-color');
-                    
-                    console.log(`✅ اللون المختار: ${colorInput.value}`);
                 });
             });
-            
-            // ========== زر الواتساب ==========
+            if (colorOptions.length) colorOptions[0].classList.add('selected');
+
             const whatsappBtn = document.getElementById('whatsappBtn');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+
+            function isValidEgyptianPhone(phone) {
+                const cleaned = phone.replace(/\D/g, '');
+                return /^(01[0-2|5]\d{8}|1[0-2|5]\d{8})$/.test(cleaned);
+            }
+
+            function createWhatsAppMessage(data) {
+                return `*📋 طلب جديد - ZATT*\n\n👤 الاسم: ${data.name}\n📱 الهاتف: ${data.phone}\n\n🛒 المنتج: ${data.product}\n📏 المقاس: ${data.size}\n🎨 اللون: ${data.color}\n\n📍 العنوان: ${data.address}\n${data.notes ? `\n📝 ملاحظات:\n${data.notes}\n` : ''}\n📅 التاريخ: ${new Date().toLocaleString('ar-EG')}\n✨ شكراً لثقتك في ZATT ✨`;
+            }
+
+            function openWhatsApp(message) {
+                const url = `https://wa.me/201024642637?text=${encodeURIComponent(message)}`;
+                window.open(url, '_blank');
+            }
+
+            function resetForm() {
+                document.getElementById('orderForm')?.reset();
+                sizeOptions.forEach(o => o.classList.remove('selected'));
+                colorOptions.forEach(c => c.classList.remove('selected'));
+                if (colorOptions.length) colorOptions[0].classList.add('selected');
+                sizeInput.value = '';
+                colorInput.value = colorOptions[0]?.getAttribute('data-color') || 'بني شوكولاته';
+            }
+
             whatsappBtn.addEventListener('click', function() {
-                // جمع البيانات
                 const name = document.getElementById('name').value.trim();
                 const phone = document.getElementById('phone').value.trim();
                 const product = document.getElementById('product').value;
@@ -1252,145 +1068,44 @@
                 const color = colorInput.value;
                 const address = document.getElementById('address').value.trim();
                 const notes = document.getElementById('notes').value.trim();
-                
-                // التحقق من البيانات
+
                 if (!name || !phone || !product || !size || !address) {
-                    showError('⚠️ يرجى ملء جميع الحقول المطلوبة');
+                    errorMsg.textContent = '⚠️ يرجى ملء جميع الحقول المطلوبة';
+                    errorMsg.style.display = 'block';
+                    successMsg.style.display = 'none';
+                    setTimeout(() => errorMsg.style.display = 'none', 4000);
                     return;
                 }
-                
                 if (!isValidEgyptianPhone(phone)) {
-                    showError('⚠️ يرجى إدخال رقم هاتف مصري صحيح');
+                    errorMsg.textContent = '⚠️ يرجى إدخال رقم هاتف مصري صحيح (مثال: 01012345678)';
+                    errorMsg.style.display = 'block';
+                    successMsg.style.display = 'none';
+                    setTimeout(() => errorMsg.style.display = 'none', 4000);
                     return;
                 }
-                
-                // إخفاء رسائل الخطأ السابقة
-                errorMessage.style.display = 'none';
-                successMessage.style.display = 'block';
-                
-                // تعطيل الزر مؤقتاً
+
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'block';
                 whatsappBtn.disabled = true;
                 whatsappBtn.innerHTML = '⏳ جاري التجهيز...';
-                
-                // إنشاء رسالة الواتساب
-                const whatsappMessage = createWhatsAppMessage({
-                    name,
-                    phone,
-                    product,
-                    size,
-                    color,
-                    address,
-                    notes
-                });
-                
-                // الانتظار قليلاً لرؤية رسالة النجاح
+
+                const message = createWhatsAppMessage({ name, phone, product, size, color, address, notes });
                 setTimeout(() => {
-                    openWhatsApp(whatsappMessage);
-                    
-                    // إعادة تعيين النموذج بعد 2 ثانية
+                    openWhatsApp(message);
                     setTimeout(() => {
                         resetForm();
-                        successMessage.style.display = 'none';
+                        successMsg.style.display = 'none';
+                        whatsappBtn.disabled = false;
+                        whatsappBtn.innerHTML = '📱 إرسال الطلب على الواتساب';
                     }, 2000);
-                }, 1500);
+                }, 800);
             });
-            
-            // ========== دوال المساعدة ==========
-            
-            // التحقق من رقم الهاتف المصري
-            function isValidEgyptianPhone(phone) {
-                const cleaned = phone.replace(/\D/g, '');
-                return /^(01[0-2|5]\d{8}|1[0-2|5]\d{8})$/.test(cleaned);
-            }
-            
-            // عرض رسالة الخطأ
-            function showError(message) {
-                errorMessage.textContent = message;
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
-                
-                // إخفاء الرسالة بعد 5 ثواني
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 5000);
-            }
-            
-            // إنشاء رسالة الواتساب
-            function createWhatsAppMessage(data) {
-                let message = `*📋 طلب جديد - ZATT*\n\n`;
-                message += `*👤 الاسم:* ${data.name}\n`;
-                message += `*📱 رقم الهاتف:* ${data.phone}\n`;
-                message += `\n*🛒 تفاصيل المنتج:*\n`;
-                message += `   - *الفستان:* ${data.product}\n`;
-                message += `   - *المقاس:* ${data.size}\n`;
-                message += `   - *اللون:* ${data.color}\n`;
-                message += `\n*📍 العنوان:*\n${data.address}\n`;
-                
-                if (data.notes) {
-                    message += `\n*📝 ملاحظات:*\n${data.notes}\n`;
-                }
-                
-                message += `\n*📅 التاريخ:* ${new Date().toLocaleString('ar-EG')}\n`;
-                message += `\n*✨ شكراً لثقتك في ZATT ✨*`;
-                
-                return message;
-            }
-            
-            // فتح الواتساب
-            function openWhatsApp(message) {
-                const phoneNumber = '201024642637';
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-                
-                // فتح في نافذة جديدة
-                window.open(whatsappUrl, '_blank');
-                
-                // إعادة تفعيل الزر
-                setTimeout(() => {
-                    whatsappBtn.disabled = false;
-                    whatsappBtn.innerHTML = '📱 إرسال الطلب على الواتساب';
-                }, 3000);
-            }
-            
-            // إعادة تعيين النموذج
-            function resetForm() {
-                document.getElementById('orderForm').reset();
-                
-                // إعادة تعيين المقاس واللون
-                sizeOptions.forEach(opt => opt.classList.remove('selected'));
-                colorOptions.forEach(opt => opt.classList.remove('selected'));
-                colorOptions[0].classList.add('selected');
-                
-                sizeInput.value = '';
-                colorInput.value = 'أخضر زيتوني';
-            }
-            
-            // ========== تحسين تجربة المستخدم ==========
-            
-            // تنسيق رقم الهاتف أثناء الكتابة
+
             const phoneInput = document.getElementById('phone');
             phoneInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                
-                if (value.startsWith('0')) {
-                    value = value.substring(1);
-                }
-                
-                if (value.length > 0) {
-                    e.target.value = '0' + value.substring(0, 10);
-                }
-            });
-            
-            // إضافة تأثير عند التمرير
-            window.addEventListener('scroll', function() {
-                const scrolled = window.pageYOffset;
-                const topBar = document.querySelector('.top-logo-bar');
-                
-                if (scrolled > 100) {
-                    topBar.style.boxShadow = '0 5px 25px rgba(0, 0, 0, 0.1)';
-                } else {
-                    topBar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.08)';
-                }
+                let val = e.target.value.replace(/\D/g, '');
+                if (val.startsWith('0')) val = val.substring(1);
+                if (val.length) e.target.value = '0' + val.substring(0, 10);
             });
         });
     </script>
